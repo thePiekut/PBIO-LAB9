@@ -73,6 +73,16 @@ def save_to_fasta(seq_id: str,fasta:str):
     except IOError as e:
         print(f"Błąd zapisu pliku: {e}")
 
+def pretty_print_stats(stats :dict):
+    print(f"A: {round(stats["A"]*100,3)}%")
+    print(f"C: {round(stats["C"]*100,3)}%")
+    print(f"G: {round(stats["G"]*100,3)}%")
+    print(f"T: {round(stats["T"]*100,3)}%")
+    print(f"\nGC-content: {round(stats["GC"]*100,3)}%")
+
+
+
+
 
 
 
@@ -81,10 +91,12 @@ def main():
     seq_len=validate_positive_int("Podaj długość sekwencji: ")
     seq_id=get_ID()
     seq=generate_sequence(seq_len)
-    stats=calculate_stats(seq)
     seq_w_name=insert_name(seq,input("Podaj imie: "))
     print(format_fasta(seq_id,"bez",seq_w_name))
     save_to_fasta(seq_id,format_fasta(seq_id,"bez",seq_w_name))
+    stats=calculate_stats(seq)
+    pretty_print_stats(stats)
+
 
    
    
