@@ -105,6 +105,21 @@ def plot_gc(seq: str ,output_file:str):
     plt.close()
     print(f"Wykres zapisany w {output_file}")
 
+def serch_for_motiv(seq: str, motiv: str) -> list:
+    
+    motiv = motiv.upper()
+    position = []
+    start = 0
+
+    while True:
+        idx = seq.find(motiv, start)
+        if idx == -1:
+            break
+        position.append(idx + 1) 
+        start = idx + 1 
+        
+    return position
+
     
 
 
@@ -131,6 +146,14 @@ def main():
     
     if input("Czy wygenerować wykres GC? (y/n): ").lower() == 'y':
         plot_gc(seq,f"{seq_id}_plot.png")
+
+    if input("Czy chcesz znaleć motyw? (y/n): ").lower() == 'y':
+        motyw=input("Podaj motyw: ")
+        pozycje=serch_for_motiv(seq,motyw)
+        print("Pozycje na których znaleziono motyw: ",pozycje)
+        
+
+
 
     print()
     stats=calculate_stats(seq)
