@@ -120,6 +120,24 @@ def serch_for_motiv(seq: str, motiv: str) -> list:
         
     return position
 
+def orf_finder(seq:str,minimal_len:int)->list:
+    if minimal_len>len(seq):
+        return print("Minimalna długośc większa niz długość sekwencji")
+    
+    stop=["TAA","TAG","TGA"]
+    orfs=[]
+
+    for i in range(len(seq)-2):
+        if seq[i:i+3]=="ATG":
+            for j in range(i+3,len(seq)-2,3):
+                if seq[j:j+3] in stop:
+                    len_orf=j+3-i
+                    if len_orf>=minimal_len:
+                        orfs.append({"start":i+1,
+                                     "len" :len_orf})
+                    break
+    return orfs
+
     
 
 
@@ -151,6 +169,11 @@ def main():
         motyw=input("Podaj motyw: ")
         pozycje=serch_for_motiv(seq,motyw)
         print("Pozycje na których znaleziono motyw: ",pozycje)
+
+    if input("Czy chcesz znaleć ORF? (y/n): ").lower() == 'y':
+        min_len=int(input("Podaj minimalną długość: "))
+        orfs=orf_finder(seq,min_len)
+        print("Znaleziono ORF'y: ",orfs)
         
 
 
